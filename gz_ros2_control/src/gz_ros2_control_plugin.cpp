@@ -210,7 +210,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
           RCLCPP_INFO(
             node_->get_logger(),
             "[gz_ros2_control] Fixed joint [%s] (Entity=%lu)] is skipped",
-            jointName.c_str(), jointEntity);
+            jointName.c_str(), static_cast<unsigned long>(jointEntity));
           continue;
         }
       case sdf::JointType::REVOLUTE2:
@@ -222,7 +222,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
             node_->get_logger(),
             "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unsupported type."
             " Only joints with a single axis are supported.",
-            jointName.c_str(), jointEntity);
+            jointName.c_str(), static_cast<unsigned long>(jointEntity));
           continue;
         }
       default:
@@ -230,7 +230,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
           RCLCPP_WARN(
             node_->get_logger(),
             "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unknown type",
-            jointName.c_str(), jointEntity);
+            jointName.c_str(), static_cast<unsigned long>(jointEntity));
           continue;
         }
     }
@@ -268,7 +268,7 @@ void GazeboSimROS2ControlPlugin::Configure(
       logger,
       "[Gazebo ROS 2 Control] Failed to initialize because [%s] (Entity=%lu)] is not a model."
       "Please make sure that Gazebo ROS 2 Control is attached to a valid model.",
-      model.Name(_ecm).c_str(), _entity);
+      model.Name(_ecm).c_str(), static_cast<unsigned long>(_entity));
     return;
   }
 
