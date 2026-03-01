@@ -19,10 +19,16 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
-find_package(gz_sim_vendor REQUIRED)
+find_package(tinyxml2_vendor REQUIRED)
+find_package(TinyXML2 REQUIRED)
+
+# Issue with upstream vendored targets - case difference
+add_library(TINYXML2::TINYXML2 ALIAS ${TinyXML2_LIBRARIES})
+
+# find_package(gz_sim_vendor REQUIRED)
 find_package(gz-sim REQUIRED)
 
-find_package(gz_plugin_vendor REQUIRED)
+# find_package(gz_plugin_vendor REQUIRED)
 find_package(gz-plugin REQUIRED)
 
 include_directories(include)

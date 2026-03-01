@@ -11,8 +11,37 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(gz_sim_vendor REQUIRED)
-find_package(gz-sim REQUIRED)
+
+# find_package(gz_sim_vendor REQUIRED)
+# find_package(gz-sim REQUIRED)
+
+if("$ENV{GZ_VERSION}" STREQUAL "harmonic" OR NOT DEFINED "ENV{GZ_VERSION}")
+  # Harmonic (default)
+
+  find_package(gz-sim8 REQUIRED)
+  set(GZ_SIM_VER ${gz-sim8_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Gazebo Harmonic")
+elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
+  # Ionic
+
+  find_package(gz-sim9 REQUIRED)
+  set(GZ_SIM_VER "")
+  set(GZ_MSGS_VERSION_FULL ${gz-sim9_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Gazebo Ionic")
+elseif("$ENV{GZ_VERSION}" STREQUAL "jetty")
+  # Jetty
+
+  find_package(gz-sim REQUIRED)
+  set(GZ_SIM_VER "")
+  set(GZ_MSGS_VERSION_FULL ${gz-sim10_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Gazebo Jetty")
+else()  
+  message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
+endif()
+
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
