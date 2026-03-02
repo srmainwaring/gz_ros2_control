@@ -59,6 +59,24 @@ target_include_directories(${PROJECT_NAME}-system PUBLIC
 
 #########
 
+add_library(gz_ros2_lockstep-system SHARED
+  src/gz_ros2_lockstep_plugin.cpp
+)
+add_library(gz_ros2_lockstep-system::gz_ros2_lockstep-system ALIAS gz_ros2_lockstep-system)
+
+target_link_libraries(gz_ros2_lockstep-system
+  gz-sim::gz-sim
+  gz-plugin::register
+)
+ament_target_dependencies(gz_ros2_lockstep-system
+)
+target_include_directories(gz_ros2_lockstep-system PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+)
+
+#########
+
 add_library(gz_hardware_plugins SHARED
   src/gz_system.cpp
 )
@@ -79,6 +97,7 @@ install(DIRECTORY include/
 # Install library and export targets
 install(TARGETS
   ${PROJECT_NAME}-system
+  gz_ros2_lockstep-system
   gz_hardware_plugins
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -119,6 +138,7 @@ endif()
 # Export old-style CMake variables
 ament_export_include_directories(include)
 ament_export_libraries(${PROJECT_NAME}-system gz_hardware_plugins)
+ament_export_libraries(gz_ros2_lockstep-system gz_hardware_plugins)
 ament_export_libraries(ign_ros2_control-system gz_hardware_plugins)
 
 # Export modern CMake targets
