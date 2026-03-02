@@ -16,4 +16,12 @@
       For backward compatibility with old ign* plugin names.
     </description>
   </class>
+  <class
+    name="gz_ros2_control/RosGzSystem"
+    type="gz_ros2_control::RosGzSystem"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ros2_control hardware component using the ros_gz bridge.
+    </description>
+  </class>
 </library>

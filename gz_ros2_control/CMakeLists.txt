@@ -19,6 +19,11 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
+find_package(builtin_interfaces REQUIRED)
+find_package(rosgraph_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+
 find_package(tinyxml2_vendor REQUIRED)
 find_package(TinyXML2 REQUIRED)
 
@@ -89,6 +94,24 @@ target_link_libraries(gz_hardware_plugins
   gz-sim::gz-sim
 )
 
+#########
+
+add_library(ros_gz_hardware_plugins SHARED
+  src/gz_ros2_control.cpp
+)
+ament_target_dependencies(ros_gz_hardware_plugins
+  rclcpp_lifecycle
+  hardware_interface
+  rclcpp
+  builtin_interfaces
+  rosgraph_msgs
+  sensor_msgs
+  std_msgs
+)
+target_link_libraries(ros_gz_hardware_plugins
+  gz-sim::gz-sim
+)
+
 # Install headers
 install(DIRECTORY include/
   DESTINATION include/${PROJECT_NAME}
@@ -99,6 +122,7 @@ install(TARGETS
   ${PROJECT_NAME}-system
   gz_ros2_lockstep-system
   gz_hardware_plugins
+  ros_gz_hardware_plugins
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -138,8 +162,8 @@ endif()
 # Export old-style CMake variables
 ament_export_include_directories(include)
 ament_export_libraries(${PROJECT_NAME}-system gz_hardware_plugins)
-ament_export_libraries(gz_ros2_lockstep-system gz_hardware_plugins)
 ament_export_libraries(ign_ros2_control-system gz_hardware_plugins)
+ament_export_libraries(gz_ros2_lockstep-system gz_hardware_plugins)
 
 # Export modern CMake targets
 ament_export_targets(
