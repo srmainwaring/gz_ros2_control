@@ -1,5 +1,28 @@
 #!/usr/bin/env python3
-"""Forwards arm_controller state from join trajectory action server to joint gz pos commands."""
+"""Relay output from a joint_state_topic_interface controller to individual commands
+
+Subscriptions
+- sensor_msgs.msg.JointState on /robot_joint_commands
+
+Publications
+- std_msgs.msg.Float64 on /{joint_name}/cmd_pos
+- std_msgs.msg.Float64 on /{joint_name}/cmd_vel
+
+Usage
+
+Launch Gazebo and controllers 
+- ros2 launch gz_ros2_control_demos ackermann_drive_example.launch.py
+
+Launch command relay
+- python ackermann_joint_commands.py
+
+Send command
+- ros2 topic pub /ackermann_steering_controller/reference geometry_msgs/msg/TwistStamped "{twist: {linear: {x: 3.0}, angular: {z: 0.7}}}"
+
+Inspect command
+- ros2 topic echo /robot_joint_commands
+
+"""
 
 import math
 import rclpy
