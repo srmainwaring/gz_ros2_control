@@ -1,0 +1,36 @@
+---
+- gz_topic_name: "/clock"
+  gz_type_name: "gz.msgs.Clock"
+  ros_topic_name: "clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  direction: GZ_TO_ROS
+
+- gz_topic_name: "/world/empty/model/ackermann/joint_state"
+  gz_type_name: "gz.msgs.Model"
+  ros_topic_name: "robot_joint_states"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  direction: GZ_TO_ROS
+
+- gz_topic_name: "/model/ackermann/joint/rear_left_wheel_joint/cmd_vel"
+  gz_type_name: "gz.msgs.Double"
+  ros_topic_name: "rear_left_wheel_joint/cmd_vel"
+  ros_type_name: "std_msgs/msg/Float64"
+  direction: ROS_TO_GZ
+
+- gz_topic_name: "/model/ackermann/joint/rear_right_wheel_joint/cmd_vel"
+  gz_type_name: "gz.msgs.Double"
+  ros_topic_name: "rear_right_wheel_joint/cmd_vel"
+  ros_type_name: "std_msgs/msg/Float64"
+  direction: ROS_TO_GZ
+
+- gz_topic_name: "/model/ackermann/joint/left_wheel_steering_joint/0/cmd_pos"
+  gz_type_name: "gz.msgs.Double"
+  ros_topic_name: "left_wheel_steering_joint/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  direction: ROS_TO_GZ
+
+- gz_topic_name: "/model/ackermann/joint/right_wheel_steering_joint/0/cmd_pos"
+  gz_type_name: "gz.msgs.Double"
+  ros_topic_name: "right_wheel_steering_joint/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  direction: ROS_TO_GZ

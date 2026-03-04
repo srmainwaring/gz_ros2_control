@@ -66,6 +66,18 @@ def generate_launch_description():
                    'ackermann', '-allow_renaming', 'true'],
     )
 
+    ros2_control_node = Node(
+            package="controller_manager",
+            executable="ros2_control_node",
+            parameters=[
+                robot_controllers,
+                {"use_sim_time": True},
+            ],
+            remappings=[
+                ("/robot_description", "/robot_description"),
+            ],
+        )
+
     joint_state_broadcaster_spawner = Node(
         package='controller_manager',
         executable='spawner',
@@ -83,15 +95,31 @@ def generate_launch_description():
     )
 
     # Bridge
+    # bridge = Node(
+    #     package='ros_gz_bridge',
+    #     executable='parameter_bridge',
+    #     arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+    #     output='screen'
+    # )
+
+    bridge_config = PathJoinSubstitution(
+        [
+            FindPackageShare('gz_ros2_control_demos'),
+            'config',
+            'ackermann_drive_bridge.yaml',
+        ]
+    )
+
     bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
-        output='screen'
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        parameters=[{"config_file": bridge_config}],
+        output="screen",
     )
 
     ld = LaunchDescription([
         bridge,
+        ros2_control_node,
         # Launch gazebo environment
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
